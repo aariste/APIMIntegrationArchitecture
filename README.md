@@ -1,0 +1,1 @@
+This is an example of an Azure Function that creates a calculator REST API.

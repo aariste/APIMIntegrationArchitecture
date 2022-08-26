@@ -17,7 +17,7 @@ namespace CalculatorFunctionAPI
             [HttpTrigger(AuthorizationLevel.Function, "post", Route = null)] HttpRequest req,
             ILogger log)
         {
-            log.LogInformation("C# HTTP trigger function processed a request.");
+            log.LogInformation("C# HTTP trigger function processed a Multiply request.");
 
             string requestBody = String.Empty;
 

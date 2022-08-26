@@ -1,0 +1,7 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/.vs/APIMIntegration/FileContentIndex
+/.vs/APIMIntegration/v17
+/.vs

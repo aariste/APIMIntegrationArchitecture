@@ -7,20 +7,12 @@ using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
-using System.Xml.Linq;
-using System.Web.Http;
 
-namespace IberianFunctionAPI
+namespace CalculatorFunctionAPI
 {
-    public class response
+    public static class Divide
     {
-        public int result { get; set; }        
-        public string message { get; set; }
-    }
-
-    public static class Add
-    {
-        [FunctionName("Add")]
+        [FunctionName("Divide")]
         public static async Task<IActionResult> Run(
             [HttpTrigger(AuthorizationLevel.Function, "post", Route = null)] HttpRequest req,
             ILogger log)
@@ -42,7 +34,7 @@ namespace IberianFunctionAPI
 
             try
             {
-                result = valueA + valueB;
+                result = valueA / valueB;
             }
             catch (Exception ex)
             {

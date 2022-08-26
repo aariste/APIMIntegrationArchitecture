@@ -8,11 +8,11 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 
-namespace IberianFunctionAPI
+namespace CalculatorFunctionAPI
 {
-    public static class Divide
+    public static class Substract
     {
-        [FunctionName("Divide")]
+        [FunctionName("Substract")]
         public static async Task<IActionResult> Run(
             [HttpTrigger(AuthorizationLevel.Function, "post", Route = null)] HttpRequest req,
             ILogger log)
@@ -34,7 +34,7 @@ namespace IberianFunctionAPI
 
             try
             {
-                result = valueA / valueB;
+                result = valueA - valueB;
             }
             catch (Exception ex)
             {
@@ -57,6 +57,6 @@ namespace IberianFunctionAPI
             };
 
             return new OkObjectResult(response);
-        }
+        }        
     }
 }

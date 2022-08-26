@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 
-namespace IberianFunctionAPI
+namespace CalculatorFunctionAPI
 {
     public static class Multiply
     {

@@ -1,0 +1,42 @@
+<policies>
+    <inbound>
+        <base />
+        <log-to-eventhub logger-id="{%logger_name%}">@{
+            if (context.Request != null)
+            {
+                var bodyRequest =  context.Request.Body.As<string>(preserveContent: true);
+                
+                var ret = string.Format("{{'Direction' : '{0}', 'DateTime' : '{1}', 'ServiceName' : '{2}', 'RequestId' : '{3}', 'IpAddress' : '{4}', 'OperationName' : '{5}', 'Body' : '{6}' }}", "Inbound", DateTime.UtcNow, context.Deployment.ServiceName, context.RequestId, context.Request.IpAddress, context.Operation.Name, bodyRequest);
+
+                return ret;
+            }
+            else
+            {
+                return "INBOUND EMPTY";
+            }
+        }</log-to-eventhub>
+    </inbound>
+    <backend>
+        <base />
+    </backend>
+    <outbound>
+        <base />
+        <log-to-eventhub logger-id="{%logger_name%}">@{
+            if (context.Request != null)
+            {
+                var bodyResponse =  context.Response.Body.As<string>(preserveContent: true);
+                
+                var ret = string.Format("{{'Direction' : '{0}', 'DateTime' : '{1}', 'ServiceName' : '{2}', 'RequestId' : '{3}', 'IpAddress' : '{4}', 'OperationName' : '{5}', 'Body' : '{6}' }}", "Outbound", DateTime.UtcNow, context.Deployment.ServiceName, context.RequestId, context.Request.IpAddress, context.Operation.Name, bodyResponse);
+
+                return ret;
+            }
+            else
+            {
+                return "Outbound EMPTY";
+            }
+        }</log-to-eventhub>
+    </outbound>
+    <on-error>
+        <base />
+    </on-error>
+</policies>

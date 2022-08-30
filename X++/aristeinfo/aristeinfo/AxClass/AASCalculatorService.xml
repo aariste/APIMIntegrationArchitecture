@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AxClass xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+	<Name>AASCalculatorService</Name>
+	<SourceCode>
+		<Declaration><![CDATA[
+internal final class AASCalculatorService
+{
+}
+]]></Declaration>
+		<Methods>
+			<Method>
+				<Name>add</Name>
+				<Source><![CDATA[
+    public AASCalculatorContract add(int _valueA, int _valueB)
+    {
+        AASCalculatorContract ret = new AASCalculatorContract();
+
+        try
+        {
+            ret.parmStatus('OK');
+            ret.parmResult(_valueA + _valueB);
+            ret.parmMessage('');
+
+        }
+        catch (Exception::Error)
+        {
+            ret.parmStatus('KO');
+            ret.parmResult(0);
+            ret.parmMessage('Something went wrong');
+        }
+        
+        return ret;
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>substract</Name>
+				<Source><![CDATA[
+    public AASCalculatorContract substract(int _valueA, int _valueB)
+    {
+        AASCalculatorContract ret = new AASCalculatorContract();
+
+        try
+        {
+            ret.parmStatus('OK');
+            ret.parmResult(_valueA - _valueB);
+            ret.parmMessage('');
+
+        }
+        catch (Exception::Error)
+        {
+            ret.parmStatus('KO');
+            ret.parmResult(0);
+            ret.parmMessage('Something went wrong');
+        }
+        
+        return ret;
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>divide</Name>
+				<Source><![CDATA[
+    public AASCalculatorContract divide(int _valueA, int _valueB)
+    {
+        AASCalculatorContract ret = new AASCalculatorContract();
+
+        try
+        {
+            ret.parmStatus('OK');
+            ret.parmResult(_valueA / _valueB);
+            ret.parmMessage('');
+
+        }
+        catch (Exception::Error)
+        {
+            ret.parmStatus('KO');
+            ret.parmResult(0);
+            ret.parmMessage('Something went wrong');
+        }        
+        
+        return ret;
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>multiply</Name>
+				<Source><![CDATA[
+    public AASCalculatorContract multiply(int _valueA, int _valueB)
+    {
+        AASCalculatorContract ret = new AASCalculatorContract();
+
+        try
+        {
+            ret.parmStatus('OK');
+            ret.parmResult(_valueA * _valueB);
+            ret.parmMessage('');
+
+        }
+        catch (Exception::Error)
+        {
+            ret.parmStatus('KO');
+            ret.parmResult(0);
+            ret.parmMessage('Something went wrong');
+        }
+        
+        return ret;
+    }
+
+]]></Source>
+			</Method>
+		</Methods>
+	</SourceCode>
+</AxClass>

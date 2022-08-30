@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AxClass xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+	<Name>AASCalculatorContract</Name>
+	<SourceCode>
+		<Declaration><![CDATA[
+[DataContract]
+internal final class AASCalculatorContract
+{
+    str status;
+    int result;
+    str message;
+
+}
+]]></Declaration>
+		<Methods>
+			<Method>
+				<Name>parmStatus</Name>
+				<Source><![CDATA[
+    [DataMember]
+    public str parmStatus(str _status = status)
+    {
+        status = _status;
+
+        return status;
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>parmResult</Name>
+				<Source><![CDATA[
+    [DataMember]
+    public int parmResult(int _result = result)
+    {
+        result = _result;
+
+        return result;
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>parmMessage</Name>
+				<Source><![CDATA[
+    [DataMember]
+    public str parmMessage(str _message = message)
+    {
+        message = _message;
+
+        return message;
+    }
+
+]]></Source>
+			</Method>
+		</Methods>
+	</SourceCode>
+</AxClass>

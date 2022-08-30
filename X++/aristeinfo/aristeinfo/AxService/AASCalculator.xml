@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AxService xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+	<Name>AASCalculator</Name>
+	<Class>AASCalculatorService</Class>
+	<ExternalName>AASCalculatorService</ExternalName>
+	<ServiceOperations>
+		<AxServiceOperation>
+			<Name>add</Name>
+			<Method>add</Method>
+			<SubscriberAccessLevel>
+				<Read>Allow</Read>
+			</SubscriberAccessLevel>
+		</AxServiceOperation>
+		<AxServiceOperation>
+			<Name>substract</Name>
+			<Method>substract</Method>
+			<SubscriberAccessLevel>
+				<Read>Allow</Read>
+			</SubscriberAccessLevel>
+		</AxServiceOperation>
+		<AxServiceOperation>
+			<Name>divide</Name>
+			<Method>divide</Method>
+			<SubscriberAccessLevel>
+				<Read>Allow</Read>
+			</SubscriberAccessLevel>
+		</AxServiceOperation>
+		<AxServiceOperation>
+			<Name>multiply</Name>
+			<Method>multiply</Method>
+			<SubscriberAccessLevel>
+				<Read>Allow</Read>
+			</SubscriberAccessLevel>
+		</AxServiceOperation>
+	</ServiceOperations>
+</AxService>

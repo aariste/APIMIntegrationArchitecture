@@ -1,46 +1,41 @@
 @description('The location where the resources will be deployed')
 param location string
 
+@description('A suffix that will be added to the resources.')
+param prefix string
+
 // Analytics
 @description('Log Analytics workspace name')
-param logAnalyticsWorkspaceName string
-
+var logAnalyticsWorkspaceName = '${prefix}LogAnalytics'
 @description('Name for the App Insights resource')
-param appInsightsName string
+var appInsightsName = '${prefix}AppInsights'
 
 // Azure Function
 @description('The name of the account storage used by the Azure function')
-param storageName string
-
+var storageName = toLower('${prefix}Storage')
 @description('Azure function name')
-param functionName string
-
+var functionName = '${prefix}Function'
 @description('App Service plan name')
-param appServicePlanName string
+var appServicePlanName = '${prefix}AppServicePlan'
 
 // APIM
 @description('Event hub namespace name')
-param eventHubNamespaceName string
-
+var eventHubNamespaceName = '${prefix}EventHubNamespace'
 @description('Event hub name in the namespace')
-param eventHubName string
-
+var eventHubName = '${prefix}EventHub'
 @description('Name of the APIM resource')
-param apiManagementInstanceName string
-
+var apiManagementInstanceName = '${prefix}apim'
 @description('APIM publisher email')
 @secure()
 param publisherEmail string
-
 @description('APIM publisher name')
 param publisherName string
-
 @description('Name of the API that will be created in the APIM')
-param apiName string
+var apiName = 'calculator'
 
 // Logic App
 @description('Logic app name')
-param logicAppName string
+var logicAppName = '${prefix}LogicApp'
 
 // Analytics resources
 module analytics 'modules/analytics.bicep' = {
@@ -76,7 +71,9 @@ module apiManagement 'modules/apiManagement.bicep' = {
     location: location
     publisherEmail: publisherEmail
     publisherName: publisherName
-    apiClau: azureFunction.outputs.azureFunctionApi
+    apiKey: azureFunction.outputs.azureFunctionApi    
+    appInsightsId: analytics.outputs.appInsightsId
+    appInsightsKey: analytics.outputs.appInsightsKey    
   }
 }
 

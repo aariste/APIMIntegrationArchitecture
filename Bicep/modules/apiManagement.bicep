@@ -6,7 +6,10 @@ param publisherName string
 param publisherEmail string
 param apiName string
 param endpointUrl string
-param apiClau string
+@secure()
+param apiKey string
+param appInsightsId string
+param appInsightsKey string
 
 // Event Hub
 resource eventHubNamespace 'Microsoft.EventHub/namespaces@2021-11-01' = {
@@ -57,6 +60,19 @@ resource apiManagementInstance 'Microsoft.ApiManagement/service@2020-12-01' = {
     publisherEmail: publisherEmail
     publisherName: publisherName  
   }  
+}
+
+// App Insights Link
+resource apiManagementInstanceAppInsights 'Microsoft.ApiManagement/service/loggers@2021-08-01' = {
+  parent: apiManagementInstance
+  name: '${apiManagementInstance.name}-appInsights'
+  properties: {
+    loggerType: 'applicationInsights'
+    resourceId: appInsightsId
+    credentials: {
+      instrumentationKey: appInsightsKey
+    }
+  }
 }
 
 resource apimLogger 'Microsoft.ApiManagement/service/loggers@2021-08-01' = {
@@ -112,7 +128,7 @@ module operationAdd 'apiOperation.bicep' = {
     operationName: 'add'
     operationUrl: '/add'
     parentResource: '${apiManagementInstance.name}/${api.name}'
-    apiClau: apiClau
+    apiClau: apiKey
   }
 }
 
@@ -123,7 +139,7 @@ module operationSubstract 'apiOperation.bicep' = {
     operationName: 'substract'
     operationUrl: '/substract'
     parentResource: '${apiManagementInstance.name}/${api.name}'
-    apiClau: apiClau
+    apiClau: apiKey
   }
 }
  
@@ -134,7 +150,7 @@ module operationMultiply 'apiOperation.bicep' = {
     operationName: 'multiply'
     operationUrl: '/multiply'
     parentResource: '${apiManagementInstance.name}/${api.name}'
-    apiClau: apiClau
+    apiClau: apiKey
   }
 }
 
@@ -145,7 +161,7 @@ module operationDivide 'apiOperation.bicep' = {
     operationName: 'divide'
     operationUrl: '/divide'
     parentResource: '${apiManagementInstance.name}/${api.name}'
-    apiClau: apiClau
+    apiClau: apiKey
   }
 }
 

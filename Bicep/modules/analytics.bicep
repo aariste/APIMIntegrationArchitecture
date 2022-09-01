@@ -40,3 +40,4 @@ resource logAnalyticsConn 'Microsoft.Web/connections@2016-06-01' = {
 
 output appInsightsId string = appInsights.id
 output logAnalyticsConnId string = logAnalyticsConn.id
+output appInsightsKey string = reference(appInsights.id, appInsights.apiVersion).InstrumentationKey

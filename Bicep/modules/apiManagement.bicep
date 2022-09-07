@@ -1,5 +1,3 @@
-param eventHubNamespaceName string
-param eventHubName string
 param apiManagementInstanceName string
 param location string
 param publisherName string
@@ -11,43 +9,6 @@ param apiKey string
 param appInsightsId string
 param appInsightsKey string
 
-// Event Hub
-resource eventHubNamespace 'Microsoft.EventHub/namespaces@2021-11-01' = {
-  name: eventHubNamespaceName
-  location: location    
-}
-
-resource eventHub 'Microsoft.EventHub/namespaces/eventhubs@2021-11-01' = {
-  parent: eventHubNamespace
-  name: eventHubName       
-}
-
-resource eventHubListenSend 'Microsoft.EventHub/namespaces/eventhubs/authorizationRules@2021-11-01' = {
-  parent: eventHub
-  name: 'ListenSend'
-  properties: {
-    rights: [
-      'Listen'
-      'Send'
-    ]
-  }  
-}
-
-// Event Hub connection for Logic App
-resource eventHubConnection 'Microsoft.Web/connections@2016-06-01' = {
-  name: '${eventHubName}-conn'
-  location: location
-  properties: {
-    displayName: '${eventHubName}-conn'
-    api: {
-      id: '${subscription().id}/providers/Microsoft.Web/locations/${location}/managedApis/eventhubs'
-    }    
-    parameterValues: {
-      connectionString: listkeys(eventHubListenSend.id, eventHubListenSend.apiVersion).primaryConnectionString
-    }
-  }
-}
-
 // APIM
 resource apiManagementInstance 'Microsoft.ApiManagement/service@2020-12-01' = {
   name: apiManagementInstanceName
@@ -58,8 +19,8 @@ resource apiManagementInstance 'Microsoft.ApiManagement/service@2020-12-01' = {
   }
   properties:{
     publisherEmail: publisherEmail
-    publisherName: publisherName  
-  }  
+    publisherName: publisherName      
+  }    
 }
 
 // App Insights Link
@@ -74,22 +35,6 @@ resource apiManagementInstanceAppInsights 'Microsoft.ApiManagement/service/logge
     }
   }
 }
-
-resource apimLogger 'Microsoft.ApiManagement/service/loggers@2021-08-01' = {
-  parent: apiManagementInstance
-  name: '${apiManagementInstanceName}-logger'
-  properties: {
-    loggerType: 'azureEventHub'
-    resourceId: eventHub.id      
-    credentials: {
-      connectionString: listkeys(eventHubListenSend.id, eventHubListenSend.apiVersion).primaryConnectionString
-    }
-  }    
-}
-
-var loggerName = apimLogger.name
-var pol = loadTextContent('apimPolicies/policy.xml')
-var polXML = replace(pol, '{%logger_name%}', loggerName)
 
 // API
 resource api 'Microsoft.ApiManagement/service/apis@2020-12-01' = {
@@ -106,17 +51,49 @@ resource api 'Microsoft.ApiManagement/service/apis@2020-12-01' = {
     subscriptionRequired: true
     subscriptionKeyParameterNames: {
       header: 'x-api-key'
-    }        
+    }            
   }  
 }
 
-// Pol
-resource apiPolitica 'Microsoft.ApiManagement/service/apis/policies@2021-08-01' = {  
+// Logger bodies
+resource apiSettings 'Microsoft.ApiManagement/service/apis/diagnostics@2021-08-01' = {
   parent: api
-  name: 'policy'
-  properties: {
-    format: 'rawxml'
-    value: polXML          
+  name: 'applicationinsights'
+  properties: {    
+    loggerId: apiManagementInstanceAppInsights.id
+    verbosity: 'information'
+    alwaysLog: 'allErrors'
+    operationNameFormat: 'Url'
+    logClientIp: true
+    sampling: {
+      percentage: 100
+      samplingType: 'fixed'      
+    }
+    httpCorrelationProtocol: 'W3C'    
+    frontend: {
+      request: {
+        body: {
+          bytes: 8192
+        }        
+      }
+      response: {
+        body: {
+          bytes: 8192
+        }
+      }
+    }
+    backend: {
+      request: {
+        body: {
+          bytes: 8192
+        }
+      }
+      response: {        
+        body: {
+          bytes: 8192
+        }
+      }
+    }
   }
 }
 
@@ -164,6 +141,3 @@ module operationDivide 'apiOperation.bicep' = {
     apiClau: apiKey
   }
 }
-
-output eventHubApiConnId string = eventHubConnection.id
-output eventHubName string = eventHub.name

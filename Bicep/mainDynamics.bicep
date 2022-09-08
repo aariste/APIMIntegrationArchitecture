@@ -7,6 +7,19 @@ param prefix string
 @description('Dynamics 365 F&O instance full web service and service group URL')
 param dynamicsUrl string
 
+// Policy (Auth)
+@description('Your tenant')
+param tenant string
+@description('The URL of the D365 environment, without the final /')
+param environmentUrl string
+@secure()
+@description('AAD App registration Client Id')
+param appId string
+@secure()
+@description('App Secret')
+param secret string
+
+
 // Analytics
 @description('Log Analytics workspace name')
 var logAnalyticsWorkspaceName = '${prefix}LogAnalytics'
@@ -46,5 +59,9 @@ module apiManagement 'modules/apiManagementDynamics.bicep' = {
     publisherName: publisherName
     appInsightsId: analytics.outputs.appInsightsId
     appInsightsKey: analytics.outputs.appInsightsKey    
+    tenant: tenant
+    environmentUrl: environmentUrl
+    appId: appId
+    secret: secret
   }
 }

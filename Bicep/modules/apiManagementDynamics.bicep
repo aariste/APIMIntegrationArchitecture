@@ -6,6 +6,12 @@ param apiName string
 param endpointUrl string
 param appInsightsId string
 param appInsightsKey string
+param tenant string
+param environmentUrl string
+@secure()
+param appId string
+@secure()
+param secret string
 
 // APIM
 resource apiManagementInstance 'Microsoft.ApiManagement/service@2020-12-01' = {
@@ -51,6 +57,19 @@ resource api 'Microsoft.ApiManagement/service/apis@2020-12-01' = {
       header: 'x-api-key'
     }            
   }  
+}
+
+// Policy
+var policy = loadTextContent('apimPolicies/policy.xml')
+var policyXML = replace(replace(replace(replace(policy, '{%tenant%}', tenant), '{%client_Id%}', appId), '{%environment_Url%}', environmentUrl), '{%client_secret%}', secret)
+
+resource apiPolitica 'Microsoft.ApiManagement/service/apis/policies@2021-08-01' = {  
+  parent: api
+  name: 'policy'
+  properties: {
+    format: 'rawxml'
+    value: policyXML          
+  }
 }
 
 // Logger bodies

@@ -4,8 +4,6 @@ param publisherName string
 param publisherEmail string
 param apiName string
 param endpointUrl string
-@secure()
-param apiKey string
 param appInsightsId string
 param appInsightsKey string
 
@@ -41,7 +39,7 @@ resource api 'Microsoft.ApiManagement/service/apis@2020-12-01' = {
   parent: apiManagementInstance
   name: apiName    
   properties: {
-    serviceUrl: 'https://${endpointUrl}/api'
+    serviceUrl: endpointUrl
     path: 'bicep'
     apiType: 'http'        
     displayName: apiName
@@ -103,7 +101,7 @@ module operationAdd 'apiOperation.bicep' = {
   params: {
     operationMethod: 'POST'
     operationName: 'add'
-    operationUrl: '/add?code=${apiKey}'
+    operationUrl: '/add'
     parentResource: '${apiManagementInstance.name}/${api.name}'
   }
 }
@@ -113,7 +111,7 @@ module operationSubstract 'apiOperation.bicep' = {
   params: {
     operationMethod: 'POST'
     operationName: 'substract'
-    operationUrl: '/substract?code=${apiKey}'
+    operationUrl: '/substract'
     parentResource: '${apiManagementInstance.name}/${api.name}'
   }
 }
@@ -123,7 +121,7 @@ module operationMultiply 'apiOperation.bicep' = {
   params: {
     operationMethod: 'POST'
     operationName: 'multiply'
-    operationUrl: '/multiply?code=${apiKey}'
+    operationUrl: '/multiply'
     parentResource: '${apiManagementInstance.name}/${api.name}'
   }
 }
@@ -133,7 +131,7 @@ module operationDivide 'apiOperation.bicep' = {
   params: {
     operationMethod: 'POST'
     operationName: 'divide'
-    operationUrl: '/divide?code=${apiKey}'
+    operationUrl: '/divide'
     parentResource: '${apiManagementInstance.name}/${api.name}'
   }
 }

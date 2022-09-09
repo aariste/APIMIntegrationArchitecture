@@ -22,22 +22,5 @@ resource appInsights 'Microsoft.Insights/components@2020-02-02' = {
   }
 }
 
-// Log analytics connection string
-resource logAnalyticsConn 'Microsoft.Web/connections@2016-06-01' = {
-  name: '${logAnalyticsWorkspaceName}-conn'
-  location: location
-  properties: {
-    displayName: '${logAnalyticsWorkspaceName}-conn'
-    api: {
-      id: '${subscription().id}/providers/Microsoft.Web/locations/${location}/managedApis/azureloganalyticsdatacollector'      
-    }
-    parameterValues: {
-      username: reference(logAnalyticsWorkspace.id, logAnalyticsWorkspace.apiVersion).customerId
-      password: listkeys(logAnalyticsWorkspace.id, logAnalyticsWorkspace.apiVersion).primarySharedKey
-    }
-  }
-}
-
 output appInsightsId string = appInsights.id
-output logAnalyticsConnId string = logAnalyticsConn.id
-output appInsightsKey string = reference(appInsights.id, appInsights.apiVersion).InstrumentationKey
+output appInsightsApiVersion string = appInsights.apiVersion

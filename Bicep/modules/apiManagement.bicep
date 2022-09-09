@@ -4,10 +4,10 @@ param publisherName string
 param publisherEmail string
 param apiName string
 param endpointUrl string
-@secure()
-param apiKey string
+param azureFunctionId string
+param azureFunctionApiVersion string
 param appInsightsId string
-param appInsightsKey string
+param appInsightsApiversion string
 
 // APIM
 resource apiManagementInstance 'Microsoft.ApiManagement/service@2020-12-01' = {
@@ -31,7 +31,7 @@ resource apiManagementInstanceAppInsights 'Microsoft.ApiManagement/service/logge
     loggerType: 'applicationInsights'
     resourceId: appInsightsId
     credentials: {
-      instrumentationKey: appInsightsKey
+      instrumentationKey: reference(appInsightsId, appInsightsApiversion).InstrumentationKey
     }
   }
 }
@@ -98,6 +98,8 @@ resource apiSettings 'Microsoft.ApiManagement/service/apis/diagnostics@2021-08-0
 }
 
 // API Operations  
+var apiKey = listkeys('${azureFunctionId}/host/default', azureFunctionApiVersion).functionKeys.default
+
 module operationAdd 'apiOperation.bicep' = {  
   name: 'add'
   params: {

@@ -5,7 +5,7 @@ param publisherEmail string
 param apiName string
 param endpointUrl string
 param appInsightsId string
-param appInsightsKey string
+param appInsightsApiversion string
 param tenant string
 param environmentUrl string
 @secure()
@@ -35,7 +35,7 @@ resource apiManagementInstanceAppInsights 'Microsoft.ApiManagement/service/logge
     loggerType: 'applicationInsights'
     resourceId: appInsightsId
     credentials: {
-      instrumentationKey: appInsightsKey
+      instrumentationKey: reference(appInsightsId, appInsightsApiversion).InstrumentationKey
     }
   }
 }

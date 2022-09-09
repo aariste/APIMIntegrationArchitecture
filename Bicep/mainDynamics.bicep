@@ -58,7 +58,7 @@ module apiManagement 'modules/apiManagementDynamics.bicep' = {
     publisherEmail: publisherEmail
     publisherName: publisherName
     appInsightsId: analytics.outputs.appInsightsId
-    appInsightsKey: analytics.outputs.appInsightsKey    
+    appInsightsApiversion: analytics.outputs.appInsightsApiVersion
     tenant: tenant
     environmentUrl: environmentUrl
     appId: appId

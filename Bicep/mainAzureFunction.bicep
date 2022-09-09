@@ -61,8 +61,9 @@ module apiManagement 'modules/apiManagement.bicep' = {
     location: location
     publisherEmail: publisherEmail
     publisherName: publisherName
-    apiKey: azureFunction.outputs.azureFunctionApi    
+    azureFunctionApiVersion: azureFunction.outputs.azureFunctionApiVersion    
+    azureFunctionId: azureFunction.outputs.azureFunctionId
     appInsightsId: analytics.outputs.appInsightsId
-    appInsightsKey: analytics.outputs.appInsightsKey    
+    appInsightsApiversion: analytics.outputs.appInsightsApiVersion
   }
 }

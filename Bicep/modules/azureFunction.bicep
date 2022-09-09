@@ -58,8 +58,6 @@ resource azureFunction 'Microsoft.Web/sites@2022-03-01' = {
   }  
 }
 
-
-var apimKey = listkeys('${azureFunction.id}/host/default', azureFunction.apiVersion).functionKeys.default
-
+output azureFunctionId string = azureFunction.id
+output azureFunctionApiVersion string = azureFunction.apiVersion
 output azureFunctionUrl string = azureFunction.properties.hostNames[0]
-output azureFunctionApi string = apimKey

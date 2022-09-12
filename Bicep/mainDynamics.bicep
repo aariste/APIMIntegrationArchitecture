@@ -1,7 +1,7 @@
 @description('The location where the resources will be deployed')
 param location string = resourceGroup().location
 
-@description('A suffix that will be added to the resources.')
+@description('A prefix that will be added to the resources.')
 param prefix string
 
 @description('Dynamics 365 F&O instance full web service and service group URL')

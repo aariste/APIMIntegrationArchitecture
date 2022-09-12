@@ -8,6 +8,6 @@ The Bicep folder contains the code to create the infrastructure for both the Azu
 
 Azure Function: [![.NET](https://github.com/aariste/APIMIntegration/actions/workflows/mainCI.yml/badge.svg?branch=main)](https://github.com/aariste/APIMIntegration/actions/workflows/mainCI.yml)
 
-You can learn further about usin API Management with Dynamics 365 reading these posts:
+You can learn further about using Azure API Management with Dynamics 365 reading these posts:
 -  Azure API Management for Dynamics 365 F&O (https://ariste.info/en/2022/02/azure-api-management-dynamics-365-fo/)
 -  Azure API Management for your integrations (https://ariste.info/en/2022/09/azure-api-management-architecture/)
